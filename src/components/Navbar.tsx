@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import LoginDialog from "@/components/LoginDialog";
 
 export default function Navbar() {
   return (
@@ -20,9 +21,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm">
-            Log in
-          </Button>
+          <LoginDialog />
           <Button size="sm">Get Started</Button>
         </div>
       </div>
