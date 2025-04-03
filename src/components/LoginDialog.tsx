@@ -6,6 +6,28 @@ import { Button } from "@/components/ui/button";
 import { graphqlClient, LOGIN_MUTATION } from "@/lib/graphql";
 import { useRouter } from "next/navigation";
 import { DialogDescription } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+interface LoginError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+interface TokenCreateResponse {
+  token: string;
+  refreshToken: string;
+  user: {
+    id: string;
+    email: string;
+  };
+  errors: LoginError[];
+}
+
+interface LoginResponse {
+  tokenCreate: TokenCreateResponse;
+}
 
 export default function LoginDialog() {
   const [open, setOpen] = useState(false);
@@ -17,35 +39,45 @@ export default function LoginDialog() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
+    setError("");
+
+    console.group('Login Attempt');
+    console.log('Form Data:', { email, password: '***' });
+    console.log('GraphQL Mutation:', LOGIN_MUTATION);
 
     try {
       const variables = {
         email,
         password,
       };
+      console.log('Request Variables:', { ...variables, password: '***' });
 
-      const data = await graphqlClient.request(LOGIN_MUTATION, variables);
-      
-      if (data.tokenCreate.errors?.length > 0) {
-        setError(data.tokenCreate.errors[0].message);
+      const data = await graphqlClient.request<LoginResponse>(LOGIN_MUTATION, variables);
+      console.log('GraphQL Response:', data);
+
+      if (data?.tokenCreate?.errors?.length > 0) {
+        const error = data.tokenCreate.errors[0];
+        console.error('Login Error:', error);
+        setError(error.message);
         return;
       }
 
-      // Store the token in localStorage
-      localStorage.setItem("token", data.tokenCreate.token);
-      localStorage.setItem("refreshToken", data.tokenCreate.refreshToken);
-      
-      // Close the dialog
-      setOpen(false);
-      
-      // Redirect to dashboard
-      router.push("/dashboard");
-    } catch (err) {
-      setError("Failed to login. Please try again.");
+      if (data?.tokenCreate?.token) {
+        console.log('Login Successful');
+        console.log('Storing tokens...');
+        localStorage.setItem("token", data.tokenCreate.token);
+        localStorage.setItem("refreshToken", data.tokenCreate.refreshToken);
+        console.log('Tokens stored successfully');
+        setOpen(false);
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      setError("An error occurred during login");
     } finally {
       setIsLoading(false);
+      console.groupEnd();
     }
   };
 

@@ -7,6 +7,18 @@ export const graphqlClient = new GraphQLClient(endpoint, {
   headers: {
     'Content-Type': 'application/json',
   },
+  requestMiddleware: (request) => {
+    console.log('GraphQL Request:', {
+      query: request.query,
+      variables: request.variables,
+      headers: request.headers,
+    });
+    return request;
+  },
+  responseMiddleware: (response) => {
+    console.log('GraphQL Response:', response);
+    return response;
+  },
 });
 
 export const LOGIN_MUTATION = `

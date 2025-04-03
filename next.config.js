@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/graphql',
-        destination: 'http://192.168.68.117:8001/graphql',
+        destination: 'http://192.168.68.117:8001',
       },
     ];
   },
