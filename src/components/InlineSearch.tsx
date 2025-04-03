@@ -1,10 +1,33 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Mic, MicOff, Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const InlineSearch = () => {
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+  resultIndex: number;
+  error: string;
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+  onend: ((this: SpeechRecognition, ev: Event) => any) | null;
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
+
+const InlineSearch: React.FC = () => {
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isRecognitionSupported, setIsRecognitionSupported] = useState(false);

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Command, CommandInput, CommandList, CommandEmpty } from "@/components/ui/command";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -10,7 +9,31 @@ interface SearchDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+  resultIndex: number;
+  error: string;
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+  onend: ((this: SpeechRecognition, ev: Event) => any) | null;
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
+
+const SearchDialog: React.FC<SearchDialogProps> = ({ open, onOpenChange }) => {
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isRecognitionSupported, setIsRecognitionSupported] = useState(false);

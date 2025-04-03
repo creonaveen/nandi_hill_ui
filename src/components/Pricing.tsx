@@ -1,8 +1,17 @@
-
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import React from "react";
 
-const plans = [
+interface Plan {
+  name: string;
+  price: number;
+  description: string;
+  features: string[];
+  recommended: boolean;
+  buttonText: string;
+}
+
+const plans: Plan[] = [
   {
     name: "Starter",
     price: 19,
@@ -56,7 +65,7 @@ const plans = [
   }
 ];
 
-const Pricing = () => {
+const Pricing: React.FC = () => {
   return (
     <section id="pricing" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">

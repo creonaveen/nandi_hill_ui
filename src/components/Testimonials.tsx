@@ -1,9 +1,17 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import React from "react";
 
-const testimonials = [
+interface Testimonial {
+  quote: string;
+  author: string;
+  role: string;
+  avatar: string;
+}
+
+const testimonials: Testimonial[] = [
   {
     quote: "SellHub completely transformed my small handmade business. Within just 3 months, my sales increased by 200%. The platform is incredibly easy to use.",
     author: "Sarah Johnson",
@@ -24,7 +32,7 @@ const testimonials = [
   }
 ];
 
-const Testimonials = () => {
+const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextTestimonial = () => {
@@ -48,11 +56,12 @@ const Testimonials = () => {
         <div className="max-w-4xl mx-auto">
           <div className="bg-seller-light-purple rounded-2xl p-8 md:p-12 relative">
             <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-white">
-                <img 
+              <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-white relative">
+                <Image 
                   src={testimonials[currentIndex].avatar} 
                   alt={testimonials[currentIndex].author} 
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <p className="text-xl md:text-2xl text-seller-black mb-6 italic">
@@ -72,6 +81,7 @@ const Testimonials = () => {
                     index === currentIndex ? "bg-seller-purple" : "bg-gray-300"
                   }`}
                   onClick={() => setCurrentIndex(index)}
+                  aria-label={`Go to testimonial ${index + 1}`}
                 ></button>
               ))}
             </div>
@@ -82,6 +92,7 @@ const Testimonials = () => {
                 size="icon"
                 className="rounded-full bg-white shadow-md"
                 onClick={prevTestimonial}
+                aria-label="Previous testimonial"
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
@@ -93,6 +104,7 @@ const Testimonials = () => {
                 size="icon"
                 className="rounded-full bg-white shadow-md"
                 onClick={nextTestimonial}
+                aria-label="Next testimonial"
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>
