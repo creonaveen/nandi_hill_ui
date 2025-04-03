@@ -1,125 +1,140 @@
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 interface Plan {
   name: string;
-  price: number;
+  price: string;
   description: string;
   features: string[];
-  recommended: boolean;
+  recommended?: boolean;
   buttonText: string;
 }
 
 const plans: Plan[] = [
   {
     name: "Starter",
-    price: 19,
-    description: "Perfect for new sellers just getting started",
+    price: "$29",
+    description: "Perfect for small businesses just getting started with e-commerce.",
     features: [
       "Up to 100 products",
-      "2.5% transaction fee",
       "Basic analytics",
-      "Standard support",
-      "Mobile optimization",
-      "1 staff account"
+      "24/7 support",
+      "Custom domain",
+      "SSL certificate",
     ],
-    recommended: false,
-    buttonText: "Start with Starter"
+    buttonText: "Start Free Trial",
   },
   {
     name: "Professional",
-    price: 49,
-    description: "For growing businesses ready to scale",
+    price: "$79",
+    description: "Everything you need to grow your online business.",
     features: [
-      "Up to 1,000 products",
-      "1.5% transaction fee",
+      "Unlimited products",
       "Advanced analytics",
       "Priority support",
-      "Mobile optimization",
-      "5 staff accounts",
-      "Abandoned cart recovery",
-      "Gift cards"
+      "Custom domain",
+      "SSL certificate",
+      "Multiple payment gateways",
+      "Inventory management",
+      "Order tracking",
     ],
     recommended: true,
-    buttonText: "Start with Professional"
+    buttonText: "Get Started",
   },
   {
     name: "Enterprise",
-    price: 99,
-    description: "For established businesses with high volume",
+    price: "$199",
+    description: "Advanced features for large-scale e-commerce operations.",
     features: [
       "Unlimited products",
-      "0.5% transaction fee",
-      "Advanced analytics with insights",
-      "24/7 premium support",
-      "Mobile optimization",
-      "Unlimited staff accounts",
-      "Abandoned cart recovery",
-      "Gift cards",
-      "Custom reports",
-      "API access"
+      "Enterprise analytics",
+      "Dedicated support",
+      "Custom domain",
+      "SSL certificate",
+      "Multiple payment gateways",
+      "Advanced inventory management",
+      "Order tracking",
+      "API access",
+      "Custom integrations",
     ],
-    recommended: false,
-    buttonText: "Start with Enterprise"
-  }
+    buttonText: "Contact Sales",
+  },
 ];
 
-const Pricing: React.FC = () => {
+export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-seller-black mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-lg text-seller-gray">
-            Choose the plan that fits your business needs. All plans include a 14-day free trial.
+    <div className="py-24 sm:py-32" id="pricing">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-base font-semibold leading-7 text-primary">
+            Pricing
+          </h2>
+          <p className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
+            Choose the right plan for your business
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <div 
-              key={index} 
-              className={`bg-white rounded-xl p-8 border ${
-                plan.recommended 
-                  ? "border-seller-purple shadow-lg relative" 
-                  : "border-gray-200 shadow-sm"
+        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+          Start with our free trial and upgrade anytime. All plans include a
+          14-day money-back guarantee.
+        </p>
+        <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {plans.map((plan, planIdx) => (
+            <div
+              key={plan.name}
+              className={`flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10 ${
+                plan.recommended
+                  ? "z-10 scale-105 shadow-xl ring-2 ring-primary"
+                  : ""
               }`}
             >
-              {plan.recommended && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-seller-purple text-white px-4 py-1 rounded-full text-sm font-medium">
-                  Most Popular
+              <div>
+                <div className="flex items-center justify-between gap-x-4">
+                  <h3 className="text-lg font-semibold leading-8 text-gray-900">
+                    {plan.name}
+                  </h3>
+                  {plan.recommended && (
+                    <p className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold leading-5 text-primary">
+                      Most Popular
+                    </p>
+                  )}
                 </div>
-              )}
-              <h3 className="text-2xl font-bold text-seller-black mb-2">{plan.name}</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-seller-black">${plan.price}</span>
-                <span className="text-seller-gray">/month</span>
+                <p className="mt-4 text-sm leading-6 text-gray-600">
+                  {plan.description}
+                </p>
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-4xl font-bold tracking-tight text-gray-900">
+                    {plan.price}
+                  </span>
+                  <span className="text-sm font-semibold leading-6 text-gray-600">
+                    /month
+                  </span>
+                </p>
+                <ul
+                  role="list"
+                  className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+                >
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex gap-x-3">
+                      <Check
+                        className="h-6 w-5 flex-none text-primary"
+                        aria-hidden="true"
+                      />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <p className="text-seller-gray mb-6">{plan.description}</p>
-              <Button 
-                className={`w-full mb-8 ${
-                  plan.recommended 
-                    ? "bg-seller-purple hover:bg-seller-dark-purple text-white" 
-                    : "bg-seller-light-purple text-seller-purple hover:bg-seller-light-purple/80"
-                }`}
+              <Button
+                variant={plan.recommended ? "default" : "outline"}
+                className="mt-8"
+                size="lg"
               >
                 {plan.buttonText}
               </Button>
-              <ul className="space-y-3">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start">
-                    <Check className="h-5 w-5 text-seller-purple mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-seller-gray">{feature}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default Pricing;
+} 

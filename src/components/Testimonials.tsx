@@ -1,119 +1,82 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 
-interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  avatar: string;
-}
-
-const testimonials: Testimonial[] = [
+const testimonials = [
   {
-    quote: "SellHub completely transformed my small handmade business. Within just 3 months, my sales increased by 200%. The platform is incredibly easy to use.",
-    author: "Sarah Johnson",
-    role: "Handmade Jewelry Shop",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg"
+    content:
+      "SellHub has transformed my small business. The platform is incredibly easy to use, and their support team is always there when I need help.",
+    author: {
+      name: "Sarah Johnson",
+      role: "Boutique Owner",
+      image: "/testimonials/sarah.jpg",
+    },
   },
   {
-    quote: "As someone with zero technical skills, I was amazed at how quickly I could set up my store. The customer support team is also incredibly responsive and helpful.",
-    author: "Michael Rodriguez",
-    role: "Vintage Clothing Store",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg"
+    content:
+      "Since switching to SellHub, our online sales have increased by 200%. The analytics tools help us make better business decisions every day.",
+    author: {
+      name: "Michael Chen",
+      role: "E-commerce Manager",
+      image: "/testimonials/michael.jpg",
+    },
   },
   {
-    quote: "The analytics tools have been game-changing for my business. I can now make informed decisions based on real data, which has helped me optimize my product offerings.",
-    author: "Emily Chen",
-    role: "Home Decor Business",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg"
-  }
+    content:
+      "The customization options are fantastic. We were able to create a unique store that perfectly represents our brand identity.",
+    author: {
+      name: "Emma Davis",
+      role: "Creative Director",
+      image: "/testimonials/emma.jpg",
+    },
+  },
 ];
 
-const Testimonials: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
+export default function Testimonials() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-seller-black mb-4">Loved by Sellers Worldwide</h2>
-          <p className="text-lg text-seller-gray">
-            Join thousands of successful entrepreneurs who have grown their business with SellHub.
+    <div className="py-24 sm:py-32" id="testimonials">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-xl text-center">
+          <h2 className="text-lg font-semibold leading-8 tracking-tight text-primary">
+            Testimonials
+          </h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+            Trusted by Businesses Worldwide
           </p>
         </div>
-
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-seller-light-purple rounded-2xl p-8 md:p-12 relative">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-white relative">
-                <Image 
-                  src={testimonials[currentIndex].avatar} 
-                  alt={testimonials[currentIndex].author} 
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <p className="text-xl md:text-2xl text-seller-black mb-6 italic">
-                "{testimonials[currentIndex].quote}"
-              </p>
-              <div>
-                <h4 className="font-bold text-seller-black">{testimonials[currentIndex].author}</h4>
-                <p className="text-seller-gray">{testimonials[currentIndex].role}</p>
-              </div>
-            </div>
-
-            <div className="flex justify-center mt-8 space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full ${
-                    index === currentIndex ? "bg-seller-purple" : "bg-gray-300"
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                ></button>
-              ))}
-            </div>
-
-            <div className="absolute top-1/2 left-4 transform -translate-y-1/2 hidden md:block">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full bg-white shadow-md"
-                onClick={prevTestimonial}
-                aria-label="Previous testimonial"
+        <div className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((testimonial, testimonialIdx) => (
+              <div
+                key={testimonialIdx}
+                className="flex flex-col justify-between bg-white p-8 shadow-lg ring-1 ring-gray-900/5 sm:p-10"
               >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
-            </div>
-
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 hidden md:block">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full bg-white shadow-md"
-                onClick={nextTestimonial}
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </Button>
-            </div>
+                <div>
+                  <div className="relative h-12 w-12 overflow-hidden rounded-full">
+                    <Image
+                      src={testimonial.author.image}
+                      alt={testimonial.author.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="mt-6">
+                    <p className="text-lg leading-7 text-gray-600">
+                      {testimonial.content}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-8">
+                  <div className="font-semibold text-gray-900">
+                    {testimonial.author.name}
+                  </div>
+                  <div className="mt-1 text-gray-500">
+                    {testimonial.author.role}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default Testimonials;
+} 

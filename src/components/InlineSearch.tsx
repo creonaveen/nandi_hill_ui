@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+"use client";
+
+import { useState, useRef, useEffect } from "react";
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Mic, MicOff, Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,7 +29,7 @@ declare global {
   }
 }
 
-const InlineSearch: React.FC = () => {
+export default function InlineSearch() {
   const [query, setQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isRecognitionSupported, setIsRecognitionSupported] = useState(false);
@@ -129,7 +131,7 @@ const InlineSearch: React.FC = () => {
               {isListening ? (
                 <MicOff className="h-5 w-5 text-red-500" />
               ) : (
-                <Mic className="h-5 w-5 text-seller-purple" />
+                <Mic className="h-5 w-5 text-primary" />
               )}
             </Button>
           )}
@@ -156,12 +158,10 @@ const InlineSearch: React.FC = () => {
         </CommandList>
       </Command>
       {isListening && (
-        <div className="mt-2 text-center text-seller-purple text-sm font-medium animate-pulse">
+        <div className="mt-2 text-center text-primary text-sm font-medium animate-pulse">
           Listening... Speak now
         </div>
       )}
     </div>
   );
-};
-
-export default InlineSearch;
+} 
