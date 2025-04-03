@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Button } from "@/components/ui/button";
 import { graphqlClient, LOGIN_MUTATION } from "@/lib/graphql";
 import { useRouter } from "next/navigation";
+import { DialogDescription } from "@/components/ui/dialog";
 
 export default function LoginDialog() {
   const [open, setOpen] = useState(false);
@@ -55,9 +56,12 @@ export default function LoginDialog() {
           Log in
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-gray-100">
         <DialogHeader>
-          <DialogTitle>Login to SellHub</DialogTitle>
+          <DialogTitle>Login</DialogTitle>
+          <DialogDescription>
+            Enter your credentials to access your account.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
